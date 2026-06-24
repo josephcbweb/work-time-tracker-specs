@@ -1,0 +1,78 @@
+{
+  "endpoint": "/api/auth/signup",
+  "method": "POST",
+  "description": "Register a new user account in the system",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "request": {
+    "type": "object",
+    "properties": {
+      "username": {
+        "type": "string",
+        "description": "Unique username containing alphanumeric characters, hyphens, or underscores",
+        "minLength": 3,
+        "maxLength": 20
+      },
+      "password": {
+        "type": "string",
+        "description": "Secure password (plain text)",
+        "minLength": 8
+      }
+    },
+    "required": ["username", "password"]
+  },
+  "responses": {
+    "201": {
+      "description": "Created - User registered successfully",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Assigned unique user identifier"
+          },
+          "username": {
+            "type": "string",
+            "description": "Registered username"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO-8601 UTC timestamp of creation"
+          }
+        },
+        "required": ["id", "username", "createdAt"]
+      }
+    },
+    "400": {
+      "description": "Bad Request - Validation failed (blank field, weak password, duplicate username)",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "type": "integer",
+            "enum": [400]
+          },
+          "error": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": ["timestamp", "status", "error", "message"]
+      }
+    }
+  }
+}
